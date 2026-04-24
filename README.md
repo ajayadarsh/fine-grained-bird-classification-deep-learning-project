@@ -48,7 +48,7 @@ A deep learning project for classifying 200 visually similar bird species using 
 
 ## Confusion Matrix
 
-![Confusion Matrix_EfficientNetB2](Results/Confusion matrix - EffiicientNetB2.png)
+![Confusion Matrix](Results/Confusion matrix - EffiicientNetB2.png)
 
 ---
 
