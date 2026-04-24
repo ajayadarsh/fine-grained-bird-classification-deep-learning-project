@@ -1,0 +1,6 @@
+tensorflow==2.x
+numpy
+pandas
+scikit-learn
+matplotlib
+Pillow
