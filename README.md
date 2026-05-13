@@ -128,30 +128,29 @@ Used smooth learning-rate reduction during fine-tuning for stable convergence.
 ```mermaid
 flowchart TD
 
-A[📂 CUB-200-2011 Dataset] --> B
+A["📂 CUB-200-2011 Dataset"] --> B
 
-B[🧹 Data Processing<br/>Bounding Box Cropping<br/>Resize 260×260<br/>Normalization] --> C
+B["🧹 Data Processing<br/>Bounding Box Cropping<br/>Resize 260×260<br/>Normalization"] --> C
 
-C[🎨 Data Augmentation<br/>Flip · Rotation · Zoom<br/>Contrast · Translation] --> D
+C["🎨 Data Augmentation<br/>Flip · Rotation · Zoom<br/>Contrast · Translation"] --> D
 
-D[🧪 MixUp & CutMix Regularisation]
+D["🧪 MixUp & CutMix Regularisation"]
 
 D --> F1
 D --> F2
 
-F1[🧠 Model 1<br/>EfficientNetB2 Transfer Learning] --> H
+F1["🧠 Model 1<br/>EfficientNetB2 Transfer Learning"] --> H
 
-F2[🧠 Model 2<br/>Custom Attention Architecture] --> H
+F2["🧠 Model 2<br/>Custom Attention Architecture"] --> H
 
-H[⚙️ Fine-Tuning<br/>Partial Layer Unfreezing<br/>Cosine Decay LR] --> I
+H["⚙️ Fine-Tuning<br/>Partial Layer Unfreezing<br/>Cosine Decay LR"] --> I
 
-I[📈 Evaluation<br/>Accuracy · Precision · Recall · F1<br/>Confusion Matrix · Flip-TTA]
+I["📈 Evaluation<br/>Accuracy · Precision · Recall · F1<br/>Confusion Matrix · Flip-TTA"]
 
 style A fill:#0B5394,color:#fff
 style B fill:#3D85C6,color:#fff
 style C fill:#6FA8DC,color:#fff
 style D fill:#FFD966,color:#000
-style E fill:#F6B26B,color:#000
 style F1 fill:#93C47D,color:#000
 style F2 fill:#93C47D,color:#000
 style H fill:#8E7CC3,color:#fff
