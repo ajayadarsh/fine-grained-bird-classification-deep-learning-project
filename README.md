@@ -328,5 +328,5 @@ This project was inspired by transfer learning and fine-grained visual recogniti
 # Author
 
 AJ  
-MSc Artificial Intelligence / Data Science & AI Student  
+MSc Artificial Intelligence / Data Science Student  
 Deep Learning · Computer Vision · Machine Learning
