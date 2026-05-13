@@ -71,7 +71,7 @@ The project combines:
 
 ## Custom Attention-Based Model
 
-![Custom CNN Confusion Matrix](Results/Confusion_matrix_Custom%20CNN.png)
+![Custom CNN Confusion Matrix](results/Confusion_matrix_Custom_CNN.png)
 
 ---
 
