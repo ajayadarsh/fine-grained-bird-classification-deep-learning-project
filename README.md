@@ -65,7 +65,7 @@ The project combines:
 
 ## EfficientNetB2 Fine-Tuned Model
 
-![EfficientNetB2 Confusion Matrix](results/Confusion_matrix_EfficientNetB2.png)
+![EfficientNetB2 Confusion Matrix](results/Confusion_matrix_EffiicientNetB2.png)
 
 ---
 
