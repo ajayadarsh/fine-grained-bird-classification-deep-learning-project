@@ -1,7 +1,5 @@
 ---
-title: "CUB-200-2011 Fine-Grained Classification (Task 1)"
-author: "Ajay Adarsh Sivakumar"
-date: "17/02/2026"
+# CUB-200-2011 Fine-Grained Bird Classification
 
 ---
 
