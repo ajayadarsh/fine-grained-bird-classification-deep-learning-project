@@ -5,7 +5,6 @@
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)](https://tensorflow.org)
 [![Keras](https://img.shields.io/badge/Keras-DeepLearning-red?logo=keras)](https://keras.io)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-yellow?logo=scikitlearn)](https://scikit-learn.org)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ---
 
@@ -323,12 +322,6 @@ This project was inspired by transfer learning and fine-grained visual recogniti
 - MixUp: Beyond Empirical Risk Minimization
 - CutMix: Regularization Strategy to Train Strong Classifiers
 - Squeeze-and-Excitation Networks
-
----
-
-# License
-
-This project is licensed under the MIT License.
 
 ---
 
