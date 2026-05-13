@@ -1,214 +1,343 @@
----
-# CUB-200-2011 Fine-Grained Bird Classification
+# Fine-Grained Bird Species Classification using EfficientNet & Custom Deep Learning Architectures  
+### Transfer Learning · Fine-Tuning · Attention Mechanisms · Test-Time Augmentation
+
+[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://python.org)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)](https://tensorflow.org)
+[![Keras](https://img.shields.io/badge/Keras-DeepLearning-red?logo=keras)](https://keras.io)
+[![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-yellow?logo=scikitlearn)](https://scikit-learn.org)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ---
 
-A deep learning project for classifying 200 visually similar bird species using transfer learning and a custom-designed CNN. This project explores fine-grained classification challenges and demonstrates how modern techniques like augmentation, attention mechanisms, and test-time augmentation improve performance.
+# Overview
+
+This project focuses on **fine-grained bird species classification** using the **CUB-200-2011 dataset**, containing **200 visually similar bird species**.
+
+The challenge is difficult because many bird classes have:
+- Nearly identical colors and textures
+- Similar body structures
+- Small inter-class visual differences
+- Variations in lighting, pose, background, and occlusion
+
+To solve this problem, two deep learning approaches were developed:
+
+| Model | Description |
+|---|---|
+| **Model 1** | EfficientNetB2 transfer learning with fine-tuning |
+| **Model 2** | Custom attention-enhanced architecture built on top of EfficientNet backbone |
+
+The project combines:
+- Transfer learning
+- Fine-tuning
+- Bounding-box based preprocessing
+- MixUp & CutMix regularisation
+- Attention mechanisms
+- Cosine decay learning rate scheduling
+- Flip Test-Time Augmentation (TTA)
 
 ---
 
-## Project Highlights
+# Final Results
 
-- Achieved **~80% test accuracy** on a **200-class** fine-grained dataset
-- Implemented **EfficientNetB2 transfer learning (Model 1)**
-- Designed a **custom CNN with channel attention (Model 2)**
-- Applied advanced augmentation:
-  - MixUp
-  - CutMix (experimental)
-- Used **Flip Test-Time Augmentation (TTA)** for improved predictions
-- Built a **complete training + evaluation + demo pipeline**
+## Model 1 — EfficientNetB2 Fine-Tuned
 
----
-
-## Results
-
-### Model 1 – EfficientNetB2 (Transfer Learning)
-
-| Metric        | Value |
-|--------------|------|
-| Accuracy     | 79.6% |
-| Precision    | 0.808 |
-| Recall       | 0.798 |
-| F1 Score     | 0.797 |
+| Metric | Validation | Test |
+|---|---|---|
+| Accuracy | **81.8%** | **80.9%** |
+| Precision (Macro) | 0.85 | 0.82 |
+| Recall (Macro) | 0.82 | 0.81 |
+| F1 Score (Macro) | 0.81 | 0.81 |
 
 ---
 
-### Model 2 – Custom CNN with Attention
+## Model 2 — Custom Attention-Based Architecture
 
-| Metric        | Value |
-|--------------|------|
-| Accuracy     | ~80% |
-| Precision    | ~0.84 |
-| Recall       | ~0.80 |
-| F1 Score     | ~0.80 |
-
----
-
-## Confusion Matrix
-
-![Confusion Matrix - EfficientNetB2](results/Confusion_matrix_EffiicientNetB2.png)
-![Confusion Matrix - Custom_CNN](results/Confusion_matrix_Custom_CNN.png)
+| Metric | Validation | Test |
+|---|---|---|
+| Accuracy | **80.33%** | **79.60%** |
+| Precision (Macro) | 0.844 | 0.808 |
+| Recall (Macro) | 0.803 | 0.798 |
+| F1 Score (Macro) | 0.799 | 0.797 |
 
 ---
 
-## Approach
+# Confusion Matrices
 
-### Data Processing
-- Bounding box cropping with padding (focus on bird region)
-- Image resizing to **260×260**
-- EfficientNet normalization
-- Stratified train-validation split
+## EfficientNetB2 Fine-Tuned Model
+
+![EfficientNetB2 Confusion Matrix](results/Confusion_matrix_EfficientNetB2.png)
 
 ---
 
-### Data Augmentation
-- Random flip, rotation, zoom, contrast, translation
-- MixUp regularization to improve generalization
+## Custom Attention-Based Model
 
-# Model 1 - EfficientNetB2 standard Model with Finetuning
+![Custom CNN Confusion Matrix](Results/Confusion_matrix_Custom%20CNN.png)
 
-## Requirements
-- Python 3.x
-- TensorFlow 2.x
-- numpy, pandas, scikit-learn, matplotlib
+---
 
-## Dataset
-Use the dataset provided on Canvas (CUB_200_2011).  
-Do not train on the official test split.
-CUB_200_2011/
-    images/
-    bounding_boxes.txt
-    train_test_split.txt
-    image_class_labels.txt
-    classes.txt
+# Why EfficientNet?
 
-## Reproducibility
-- Random seed: 42
-- Determinism enabled where supported (tf.config.experimental.enable_op_determinism)
-- Mixed precision training enabled
-- All checkpoints saved
+EfficientNet was selected because it provides an excellent balance between:
+- Accuracy
+- Computational efficiency
+- Parameter efficiency
 
-## Project Structure
+Compared with traditional CNNs, EfficientNet:
+- Uses compound scaling to balance network depth, width, and resolution
+- Achieves strong ImageNet performance with fewer parameters
+- Transfers extremely well to fine-grained classification tasks
 
-cub-bird-classification/
+This makes it ideal for:
+- Small-to-medium datasets
+- Fine-grained recognition problems
+- Transfer learning applications
+
+---
+
+# 🔬 Key Technical Highlights
+
+## Bounding Box Cropping
+Used official bird bounding boxes to remove unnecessary background information and force the model to focus on the bird itself.
+
+## Transfer Learning
+Used ImageNet-pretrained EfficientNet weights to leverage learned visual features such as:
+- edges
+- textures
+- patterns
+- shapes
+
+## Fine-Tuning
+Unfroze later EfficientNet layers to adapt pretrained features specifically to bird species classification.
+
+## MixUp & CutMix Regularisation
+Improved generalisation and reduced overfitting by creating synthetic training samples.
+
+## Attention Mechanism (Model 2)
+Implemented a custom channel-attention gate to help the network focus more strongly on important feature channels.
+
+## Test-Time Augmentation (TTA)
+Predictions from original and horizontally flipped images were averaged for more robust inference.
+
+## Cosine Decay Learning Rate
+Used smooth learning-rate reduction during fine-tuning for stable convergence.
+
+---
+
+# Project Pipeline
+
+```mermaid
+flowchart TD
+
+A[📂 CUB-200-2011 Dataset] --> B
+
+B[🧹 Data Processing<br/>Bounding Box Cropping<br/>Resize 260×260<br/>Normalization] --> C
+
+C[🎨 Data Augmentation<br/>Flip · Rotation · Zoom<br/>Contrast · Translation] --> D
+
+D[🧪 MixUp & CutMix Regularisation] --> E
+
+E --> F1
+E --> F2
+
+F1[🧠 Model 1<br/>EfficientNetB2 Transfer Learning] --> G1
+
+F2[🧠 Model 2<br/>Custom Attention Architecture] --> G2
+
+G1 --> H
+G2 --> H
+
+H[⚙️ Fine-Tuning<br/>Partial Layer Unfreezing<br/>Cosine Decay LR] --> I
+
+I[📈 Evaluation<br/>Accuracy · Precision · Recall · F1<br/>Confusion Matrix · Flip-TTA]
+
+style A fill:#0B5394,color:#fff
+style B fill:#3D85C6,color:#fff
+style C fill:#6FA8DC,color:#fff
+style D fill:#FFD966,color:#000
+style E fill:#F6B26B,color:#000
+style F1 fill:#93C47D,color:#000
+style F2 fill:#93C47D,color:#000
+style H fill:#8E7CC3,color:#fff
+style I fill:#CC0000,color:#fff
+```
+
+---
+
+# Model Architectures
+
+## Model 1 — EfficientNetB2 Transfer Learning
+
+### Architecture
+- EfficientNetB2 backbone pretrained on ImageNet
+- Global Average Pooling
+- Dropout (0.30)
+- Dense Softmax Classifier
+
+### Training Strategy
+
+#### Phase 1
+- Backbone frozen
+- Train classification head only
+
+#### Phase 2
+- Unfreeze last 40 layers
+- Fine-tune using very small learning rate
+
+---
+
+## Model 2 — Custom Attention-Based Architecture
+
+### Architecture
+- EfficientNetB0 pretrained backbone
+- Custom channel-attention gate
+- Batch normalization
+- Multi-layer custom classification head
+- Dense hidden representation layer
+- Dropout regularisation
+
+### Advanced Regularisation
+- MixUp
+- CutMix
+- Label smoothing
+- Flip-TTA
+
+---
+
+# Repository Structure
+
+```text
+fine-grained-bird-classification/
 │
 ├── README.md
 ├── requirements.txt
-├── .gitignore
+├── LICENSE
+│
+├── notebook/
+│   ├── Bird_Classification_DL.ipynb
 │
 ├── pipeline/
 │   ├── data_pipeline.py
 │   ├── model1.py
-│   ├── model2.py
+│   └── model2.py
 │
-├── notebook/
-│   ├── Bird_Classification_DL.py
-│
-├── results/
-│   ├── test_confusion_matrix.npy
+├── Results/
+│   ├── Confusion_matrix_EfficientNetB2.png
+│   ├── Confusion_matrix_Custom CNN.png
+│   └── test_predictions_with_names.csv
+│   └── test_confusion_matrix.npy
 │   └── final_test_metrics.txt
-│   └── test_predictions_with_names.txt
-│
-└── Report/
-    └── Report - Fine Grained Bird Species Classification Final.pdf
 
-## Model 1 - EfficientNetB2 (Standard Transfer Learning Model)
+```
 
-## Architecture
-- Backbone: EfficientNetB2 pretrained on ImageNet
-- Input size: 260 × 260
-- Global Average Pooling
-- Dropout: 0.30
-- Dense Softmax Output (200 classes)
+---
 
-## Training Configuration
-- Backbone: EfficientNetB2 pretrained on ImageNet
-- Input size: 260x260
-- Batch size: 16
-- Bounding-box crop with padding = 0.15
-- Augmentation: flip/rotation/zoom/contrast/translation (moderate)
-- MixUp alpha: 0.1 (train only)
-- Optimizer: AdamW (lr=1e-3, wd=1e-4) for head training
-- Fine-tune: unfreeze last 40 layers, cosine-decay LR (~5e-6)
+# Installation
 
-## How to run
-1) Run the below notebook cells in order:
-   - Load CUB-200-2011 Dataset into Compute instance storage
-   - Load dataset and metadata, Train/Test Split and Bounding Boxes
-   - Stratified Train/Validation Split
-   - Build TensorFlow Data Pipeline (BBox Crop, Augmentation, Preprocessing)
-   - MixUp Regularisation and One-Hot Label Preparation (Training Only)
-   - Build EfficientNet-B2 Model and Train Classification Head (Transfer Learning)
-   - Fine-tuning with Cosine Decay LR
-   - Evaluate train(no-aug) and val
-   - Validation Evaluation: Accuracy, Precision, Recall, F1 and Confusion Matrix (Flip-TTA)
-   - Final Test Evaluation using Flip Test-Time Augmentation (TTA)
-   - Save Final Model and Test Outputs to Google Drive (Checkpoint + Predictions + Confusion Matrix)
-   - Save Per-Image Test Predictions to CSV
-   - Plot Confusion Matrix
+```bash
+git clone https://github.com/YOUR_USERNAME/fine-grained-bird-classification.git
 
-2) Best checkpoint is saved at:
-   - /content/checkpoints/standard_efficientnetb2_finetuned_best_bbox.keras
-   - Copied to Drive: /content/drive/MyDrive/cub_models/efficientnetb2_final.keras
+cd fine-grained-bird-classification
 
-# Model 2 – Custom Bird Classification Network
+pip install -r requirements.txt
+```
 
-## Preprocessing
+---
 
-- Bounding box crop with padding
-- Resize to 260x260
-- EfficientNet-style normalization
-- Stratified split
-- tf.data pipeline with prefetching
-- Random seed fixed for reproducibility
+# How to Run
 
-## Architecture
+## Model 1 — EfficientNetB2
 
-Custom CNN consisting of:
+Run notebook cells in the following order:
 
-- Multiple convolutional blocks
-- Batch Normalization
-- Channel attention module
-- Global Average Pooling
-- Dropout (0.4)
-- Dense softmax classifier
+1. Load CUB-200-2011 Dataset
+2. Load metadata and bounding boxes
+3. Stratified Train/Validation Split
+4. TensorFlow data pipeline
+5. Data augmentation
+6. MixUp regularisation
+7. Build EfficientNetB2 model
+8. Train classification head
+9. Fine-tune last 40 layers
+10. Evaluate with Flip-TTA
+11. Generate confusion matrix
+12. Save checkpoints and predictions
 
-## Training Configuration
+### Best checkpoint
 
-Optimizer: Adam  
-Initial learning rate: 3e-4  
-Fine-tuning learning rate: 1e-4  
-Learning rate scheduling: ReduceLROnPlateau  
-Mixed precision training enabled  
-Early stopping used  
-Best checkpoint saved during training  
+```text
+/content/drive/MyDrive/cub_models/efficientnetb2_final.keras
+```
 
-Data augmentation:
-- Random horizontal flip
-- Random rotation
-- Random contrast
-- MixUp
+---
 
-## How to run
-1) Run the below notebook cells in order:
-   - Load CUB-200-2011 Dataset into Compute instance storage
-   - Load dataset and metadata, Train/Test Split and Bounding Boxes
-   - Stratified Train/Validation Split
-   - Build TensorFlow Data Pipeline (BBox Crop, Augmentation, Preprocessing)
-   - MixUp Regularisation and One-Hot Label Preparation (Training Only)
-   - Build EfficientNet-B2 Model and Train Classification Head (Transfer Learning)
-   - MODEL 2 (Custom design): ImageNet backbone + Custom Head
-   - Plot TEST confusion matrix
+## Model 2 — Custom Attention Architecture
 
-2) Best checkpoint is saved at:
-   - /content/checkpoints/model2_custom_finetuned_best.keras
+Run notebook cells in the following order:
 
-## Demo
-Path containing the demo folder:
-Test/<class_folder>/<images>
+1. Load dataset and metadata
+2. Bounding-box preprocessing
+3. TensorFlow data pipeline
+4. One-hot label preparation
+5. MixUp + CutMix augmentation
+6. Build custom architecture
+7. Train custom classification head
+8. Fine-tune EfficientNet backbone
+9. Apply cosine decay learning rate
+10. Evaluate using Flip-TTA
+11. Generate confusion matrix
+12. Save predictions and checkpoints
 
-Run the below cell which has the demo function:
+### Best checkpoint
 
-DEMO: Evaluate Folder-Based Test Structure
+```text
+/content/checkpoints/model2_custom_finetuned_best.keras
+```
 
-It prints accuracy, precision, recall, F1, confusion matrix and per-image predictions.
+---
+
+# Demo Features
+
+The demo pipeline supports:
+- Folder-based evaluation
+- Automatic prediction generation
+- Per-image CSV export
+- Confusion matrix plotting
+- Flip Test-Time Augmentation
+
+---
+
+# Tech Stack
+
+| Category | Tools |
+|---|---|
+| Deep Learning | TensorFlow, Keras |
+| Machine Learning | Scikit-learn |
+| Data Processing | NumPy, Pandas |
+| Visualisation | Matplotlib |
+| Training Environment | Google Colab |
+| Dataset | CUB-200-2011 |
+
+---
+
+# Research Inspiration
+
+This project was inspired by transfer learning and fine-grained visual recognition research including:
+
+- EfficientNet: Rethinking Model Scaling for CNNs
+- MixUp: Beyond Empirical Risk Minimization
+- CutMix: Regularization Strategy to Train Strong Classifiers
+- Squeeze-and-Excitation Networks
+
+---
+
+# License
+
+This project is licensed under the MIT License.
+
+---
+
+# Author
+
+AJ  
+MSc Artificial Intelligence / Data Science & AI Student  
+Deep Learning · Computer Vision · Machine Learning
