@@ -134,17 +134,14 @@ B[🧹 Data Processing<br/>Bounding Box Cropping<br/>Resize 260×260<br/>Normali
 
 C[🎨 Data Augmentation<br/>Flip · Rotation · Zoom<br/>Contrast · Translation] --> D
 
-D[🧪 MixUp & CutMix Regularisation] --> E
+D[🧪 MixUp & CutMix Regularisation]
 
-E --> F1
-E --> F2
+D --> F1
+D --> F2
 
-F1[🧠 Model 1<br/>EfficientNetB2 Transfer Learning] --> G1
+F1[🧠 Model 1<br/>EfficientNetB2 Transfer Learning] --> H
 
-F2[🧠 Model 2<br/>Custom Attention Architecture] --> G2
-
-G1 --> H
-G2 --> H
+F2[🧠 Model 2<br/>Custom Attention Architecture] --> H
 
 H[⚙️ Fine-Tuning<br/>Partial Layer Unfreezing<br/>Cosine Decay LR] --> I
 
